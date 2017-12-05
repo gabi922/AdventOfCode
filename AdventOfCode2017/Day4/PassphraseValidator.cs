@@ -13,8 +13,8 @@ namespace AdventOfCode2017.Day4
 
         public bool IsPassphraseValid2(string passphrase)
         {
-            var sordedWords = passphrase.Split(' ').Select(w => string.Concat(w.OrderBy(c => c)));
-            return isPassphraseValid(sordedWords);
+            var sortedWords = passphrase.Split(' ').Select(w => string.Concat(w.OrderBy(c => c)));
+            return isPassphraseValid(sortedWords);
         }
 
         public int GetValidPassphraseCount(List<string> passphraseList, Func<string, bool> validator)
