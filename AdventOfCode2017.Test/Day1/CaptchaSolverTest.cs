@@ -1,7 +1,7 @@
 using AdventOfCode2017.Day1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AdventOfCode2017.Test
+namespace AdventOfCode2017.Test.Day1
 {
     [TestClass]
     public class CaptchaSolverTest
