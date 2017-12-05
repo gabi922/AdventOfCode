@@ -1,69 +1,54 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode2017.Day3
 {
-    public enum Action
-    {
-        IncreaseX, DecreaseX, IncreaseY, DecreaseY
-    }
-
     public class SpiralMemory
     {
-        public int GetDistance(int number)
+        public int GetDistance(int inputElement)
         {
-            int x = 0;
-            int y = 0;
-            int ring = 0;
-            int ringRemainingElements = 0;
-            int currentElement = 1;
-            var nextAction = Action.IncreaseX;
+            var currentElement = 1;
+            var ringState = new RingState();
 
-            while (currentElement != number)
+            while (currentElement != inputElement)
             {
-                if (ringRemainingElements == 0)
-                {
-                    ring++;
-                    ringRemainingElements = 8 * ring;
-                    nextAction = Action.IncreaseX;
-                }
-
-                switch (nextAction)
-                {
-                    case Action.IncreaseX:
-                        x++;
-                        if (x == ring)
-                        {
-                            nextAction = Action.IncreaseY;
-                        }
-                        break;
-                    case Action.IncreaseY:
-                        y++;
-                        if (y == ring)
-                        {
-                            nextAction = Action.DecreaseX;
-                        }
-                        break;
-                    case Action.DecreaseX:
-                        x--;
-                        if (x == -ring)
-                        {
-                            nextAction = Action.DecreaseY;
-                        }
-                        break;
-                    case Action.DecreaseY:
-                        y--;
-                        if (y == -ring)
-                        {
-                            nextAction = Action.IncreaseX;
-                        }
-                        break;
-                }
-
+                ringState.NavigateRing();
                 currentElement++;
-                ringRemainingElements--;
             }
 
-            return Math.Abs(x) + Math.Abs(y);
+            return Math.Abs(ringState.X) + Math.Abs(ringState.Y);
+        }
+
+        public int GetDistance2(int input)
+        {
+            var currentElementValue = 1;
+            var ringState = new RingState();
+
+            var previousRingElements = new List<RingElement>();
+            var currentRingElements = new List<RingElement>()
+            {
+                new RingElement(currentElementValue, 0, 0)
+            };
+
+            ringState.OnRingChange = () =>
+            {
+                previousRingElements = currentRingElements;
+                currentRingElements = new List<RingElement>();
+            };
+
+            while (currentElementValue <= input)
+            {
+                ringState.NavigateRing();
+
+                currentElementValue = previousRingElements.Concat(currentRingElements)
+                    .Where(e => Math.Abs(ringState.X - e.X) <= 1 && Math.Abs(ringState.Y - e.Y) <= 1)
+                    .Sum(e => e.Value);
+
+                currentRingElements.Add(new RingElement(currentElementValue, ringState.X, ringState.Y));
+            }
+
+            return currentElementValue;
         }
     }
 }

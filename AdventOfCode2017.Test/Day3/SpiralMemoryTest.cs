@@ -48,5 +48,40 @@ namespace AdventOfCode2017.Test.Day3
             var result = spiralMemory.GetDistance(361527);
             Assert.AreEqual(326, result);
         }
+
+        [TestMethod]
+        public void Test6()
+        {
+            var result = spiralMemory.GetDistance2(1);
+            Assert.AreEqual(2, result);
+        }
+
+        [TestMethod]
+        public void Test7()
+        {
+            var result = spiralMemory.GetDistance2(4);
+            Assert.AreEqual(5, result);
+        }
+
+        [TestMethod]
+        public void Test8()
+        {
+            var result = spiralMemory.GetDistance2(59);
+            Assert.AreEqual(122, result);
+        }
+
+        [TestMethod]
+        public void Test9()
+        {
+            var result = spiralMemory.GetDistance2(747);
+            Assert.AreEqual(806, result);
+        }
+
+        [TestMethod]
+        public void Test10()
+        {
+            var result = spiralMemory.GetDistance2(361527);
+            Assert.AreEqual(363010, result);
+        }
     }
 }
