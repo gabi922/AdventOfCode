@@ -18,7 +18,7 @@ namespace AdventOfCode2017.Test.Day2
         public void Test1()
         {
             var inputFile = "./Day2/input1.txt";
-            var result = checksumCalculator.GetChecksum(Utils.ReadRows(inputFile));
+            var result = checksumCalculator.GetChecksum(Utils.ReadMatrix(inputFile));
             Assert.AreEqual(18, result);
         }
 
@@ -26,7 +26,7 @@ namespace AdventOfCode2017.Test.Day2
         public void Test2()
         {
             var inputFile = "./Day2/input2.txt";
-            var result = checksumCalculator.GetChecksum(Utils.ReadRows(inputFile));
+            var result = checksumCalculator.GetChecksum(Utils.ReadMatrix(inputFile));
             Assert.AreEqual(44887, result);
         }
 
@@ -34,7 +34,7 @@ namespace AdventOfCode2017.Test.Day2
         public void Test3()
         {
             var inputFile = "./Day2/input3.txt";
-            var result = checksumCalculator.GetChecksum2(Utils.ReadRows(inputFile));
+            var result = checksumCalculator.GetChecksum2(Utils.ReadMatrix(inputFile));
             Assert.AreEqual(9, result);
         }
 
@@ -42,7 +42,7 @@ namespace AdventOfCode2017.Test.Day2
         public void Test4()
         {
             var inputFile = "./Day2/input2.txt";
-            var result = checksumCalculator.GetChecksum2(Utils.ReadRows(inputFile));
+            var result = checksumCalculator.GetChecksum2(Utils.ReadMatrix(inputFile));
             Assert.AreEqual(242, result);
         }
     }
