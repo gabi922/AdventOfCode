@@ -22,7 +22,7 @@ namespace AdventOfCode2017.Test
 
         public static List<int> ReadArray(string fileName)
         {
-            return File.ReadAllLines(fileName).Select(s => int.Parse(s)).ToList();
+            return ReadMatrix(fileName).SelectMany(l => l).ToList();
         }
     }
 }
