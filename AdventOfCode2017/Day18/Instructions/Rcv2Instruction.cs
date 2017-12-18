@@ -9,8 +9,8 @@
             if (context.RecvBuffer.Count > 0)
             {
                 context.Registers[X] = context.RecvBuffer.Dequeue();
-                context.PC++;
                 context.Waiting = false;
+                context.PC++;
             }
             else
             {
