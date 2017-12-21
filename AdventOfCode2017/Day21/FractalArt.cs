@@ -8,21 +8,78 @@ namespace AdventOfCode2017.Day21
     {
         public int Generate(string[] lines)
         {
-            var pattern = new int[,] { { '.', '#', '.' }, { '.', '.', '#' }, { '#', '#', '#' } };
+            var image = new int[,] { { '.', '#', '.' }, { '.', '.', '#' }, { '#', '#', '#' } };
             var rules = GetRules(lines);
 
+            for (var idx = 0; idx < 2; idx++)
+            {
+                var length = image.GetLength(0);
+                var patternSize = length % 2 == 0 ? 2 : 3;
+                var patternsPerLine = length / patternSize;
+
+                // split matrix into patterns of size 2x2 or 3x3
+                var patterns = new List<int[,]>();
+
+                for (var i = 0; i < length; i += patternSize)
+                {
+                    for (var j = 0; j < length; j += patternSize)
+                    {
+                        var pattern = new int[patternSize, patternSize];
+
+                        for (var k = 0; k < patternSize; k++)
+                        {
+                            for (var l = 0; l < patternSize; l++)
+                            {
+                                pattern[k, l] = image[i + k, j + l];
+                            }
+                        }
+
+                        patterns.Add(pattern);
+                    }
+                }
+
+                // apply rules
+                var resultingPatterns = patterns.Select(p => ApplyMatchingRule(p, rules)).ToList();
+
+                // combine patterns into new matrix
+                var newPatternSize = patternSize + 1;
+                var currentPattern = 0;
+                image = new int[patternsPerLine * newPatternSize, patternsPerLine * newPatternSize];
+                
+                for (var i = 0; i < patternsPerLine; i += newPatternSize)
+                {
+                    for (var j = 0; j < patternsPerLine; j += newPatternSize, currentPattern++)
+                    {
+                        var pattern = resultingPatterns[currentPattern];
+
+                        for (var k = 0; k < newPatternSize; k++)
+                        {
+                            for (var l = 0; l < newPatternSize; l++)
+                            {
+                                image[i + k, j + l] = pattern[k, l];
+                            }
+                        }
+                    }
+                }
+            }
+
+            var count = 0;
+            for (var i = 0; i < image.GetLength(0); i++)
+            {
+                for (var j = 0; j < image.GetLength(0); j++)
+                {
+                    if (image[i, j] == '#')
+                    {
+                        count++;
+                    }
+                }
+            }
 
 
-
-
-
-
-
-
-            return 0;
+            return count;
         }
 
-        public int[,] Rotate90(int [,] input)
+        public int[,] Rotate90(int[,] input)
         {
             var length = input.GetLength(0);
             var result = new int[length, length];
@@ -38,6 +95,16 @@ namespace AdventOfCode2017.Day21
             }
 
             return result;
+        }
+
+        public int[,] Rotate180(int[,] input)
+        {
+            return Rotate90(Rotate90(input));
+        }
+
+        public int[,] Rotate270(int[,] input)
+        {
+            return Rotate90(Rotate90(Rotate90(input)));
         }
 
         public int[,] FlipHorizontally(int[,] input)
@@ -100,7 +167,8 @@ namespace AdventOfCode2017.Day21
             foreach (var rule in rules)
             {
                 if (AreEqual(input, rule.Item1) || AreEqual(FlipHorizontally(input), rule.Item1) ||
-                    AreEqual(FlipVertically(input), rule.Item1) || AreEqual(Rotate90(input), rule.Item1))
+                    AreEqual(FlipVertically(input), rule.Item1) || AreEqual(Rotate90(input), rule.Item1)
+                    || AreEqual(Rotate180(input), rule.Item1) || AreEqual(Rotate270(input), rule.Item1))
                 {
                     return rule.Item2;
                 }

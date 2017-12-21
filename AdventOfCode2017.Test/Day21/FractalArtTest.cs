@@ -138,7 +138,7 @@ namespace AdventOfCode2017.Test.Day21
             var lines = File.ReadAllLines(input);
 
             var result = fractalArt.Generate(lines);
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(12, result);
         }
     }
 }
